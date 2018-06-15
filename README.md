@@ -1,6 +1,6 @@
 # Conway's Game of Life
 
- Controls | Action
+ Input | Action
 ----------------|-----------------
    Space       | Pause \ Unpause  
    Left-Click  | Fill cell  
