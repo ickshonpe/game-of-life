@@ -62,19 +62,18 @@ class LifeOfGame : ApplicationAdapter() {
             paused = !paused
         }
 
+
+        val pointerX = (Gdx.input.x / spacing).toInt()
+        val pointerY = ((Gdx.graphics.height - Gdx.input.y - 1) / spacing).toInt()
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            val x = (Gdx.input.x / spacing).toInt()
-            val y = ((Gdx.graphics.height - Gdx.input.y - 1) / spacing).toInt()
-            if (x in 0 until map.size && y in 0 until map[x].size) {
-                map[x][y] = true
+            if (pointerX in 0 until map.size && pointerY in 0 until map[pointerX].size) {
+                map[pointerX][pointerY] = true
             }
         }
 
         if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-            val x = (Gdx.input.x / spacing).toInt()
-            val y = ((Gdx.graphics.height - Gdx.input.y - 1) / spacing).toInt()
-            if (x in 0 until map.size && y in 0 until map[x].size) {
-                map[x][y] = false
+            if (pointerX in 0 until map.size && pointerY in 0 until map[pointerX].size) {
+                map[pointerX][pointerY] = false
             }
         }
     }
@@ -85,27 +84,22 @@ class LifeOfGame : ApplicationAdapter() {
 }
 
 fun countNeighbours(map: Array<out Array<out Boolean>>, x: Int, y: Int): Int {
-    val maxX = map.size - 1
-    val maxY = map[x].size - 1
     return listOf(
-            0 < x && map[x - 1][y],
-            0 < x && 0 < y && map[x - 1][y - 1],
-            0 < x && y < maxY && map[x - 1][y + 1],
-            x < maxX && map[x + 1][y],
-            x < maxX && 0 < y && map[x + 1][y - 1],
-            x < maxX && y < maxY && map[x + 1][y + 1],
-            0 < y && map[x][y - 1],
-            y < maxY && map[x][y + 1])
+            Pair(x - 1, y),
+            Pair(x - 1, y - 1),
+            Pair(x - 1, y + 1),
+            Pair(x + 1, y),
+            Pair(x + 1, y - 1),
+            Pair(x + 1, y + 1),
+            Pair(x, y - 1),
+            Pair(x, y + 1))
+            .mapNotNull { (x, y) -> map.getOrNull(x)?.getOrNull(y) }
             .count { it }
 }
 
-
 fun updateCell(isAlive: Boolean, neighbourCount: Int) =
-        if (isAlive) {
-            neighbourCount in 2..3
-        } else {
-            neighbourCount == 3
-        }
+        isAlive && neighbourCount in 2..3
+        || neighbourCount == 3
 
 fun updateMap(map: Array<out Array<out Boolean>>) =
         Array(map.size) { x ->
