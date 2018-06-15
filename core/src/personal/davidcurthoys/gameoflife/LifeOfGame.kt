@@ -39,23 +39,23 @@ class LifeOfGame : ApplicationAdapter() {
     override fun render() {
         Gdx.gl.glClearColor(0f, 0f, 0.3f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
-        shapeRenderer.setColor(0.2f, 0.2f, 0.5f, 1f)
-        for (x in 0 .. columns) {
-            shapeRenderer.line(x * spacing, 0f, x * spacing, columns * spacing)
-        }
-        for (y in 0 .. rows) {
-            shapeRenderer.line(0f, y * spacing, rows * spacing, y * spacing)
-        }
-        shapeRenderer.end()
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
-        shapeRenderer.setColor(1.0f, 1.0f, 1.0f, 1f)
-        world.forEachIndexed { x, r ->
-            r.forEachIndexed { y, isAlive ->
-                    if (isAlive) { shapeRenderer.rect(x * spacing, y * spacing, spacing, spacing) }
+        with(shapeRenderer) {
+            begin(ShapeRenderer.ShapeType.Line)
+            setColor(0.2f, 0.2f, 0.5f, 1f)
+            for (x in 0..columns) line(x * spacing, 0f, x * spacing, columns * spacing)
+            for (y in 0..rows) line(0f, y * spacing, rows * spacing, y * spacing)
+            end()
+            begin(ShapeRenderer.ShapeType.Filled)
+            setColor(1.0f, 1.0f, 1.0f, 1f)
+            world.forEachIndexed { x, r ->
+                r.forEachIndexed { y, isAlive ->
+                    if (isAlive) {
+                        rect(x * spacing, y * spacing, spacing, spacing)
+                    }
+                }
             }
+            end()
         }
-        shapeRenderer.end()
         paused = Gdx.input.isKeyJustPressed(Input.Keys.SPACE) != paused
         if (!paused) {
             updateTimer += Gdx.graphics.deltaTime
