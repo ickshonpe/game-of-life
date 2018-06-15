@@ -11,11 +11,11 @@ fun countNeighbours(world: Array<out Array<out Boolean>>, x: Int, y: Int): Int {
             Pair(-1, 0),
             Pair(-1, -1),
             Pair(-1, 1),
+            Pair(0, -1),
+            Pair(0, 1),
             Pair(1, 0),
             Pair(1, -1),
-            Pair(1, 1),
-            Pair(0, -1),
-            Pair(0, 1))
+            Pair(1, 1))
             .mapNotNull { world.getOrNull(x + it.first)?.getOrNull(y + it.second) }
             .count { it }
 }
@@ -46,10 +46,10 @@ class LifeOfGame : ApplicationAdapter() {
         val spacing = 7.5f
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
         shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1f)
-        for (x in 0 until world.size) {
+        for (x in 0 .. world.size) {
             shapeRenderer.line(x * spacing, 0f, x * spacing, world[x].size * spacing)
         }
-        for (y in 0 until world[0].size) {
+        for (y in 0 .. world[0].size) {
             shapeRenderer.line(0f, y * spacing, world.size * spacing, y * spacing)
         }
         shapeRenderer.end()
