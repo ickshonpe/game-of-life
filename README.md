@@ -1,6 +1,6 @@
-Simple version Conway's Game of Life written using Kotlin and Libgdx.
+# Simple version Conway's Game of Life written using Kotlin and Libgdx.
 
-Controls:
+# Controls
   - Space       -> Pause \ Unpause  
   - Left-Click  -> Fill cell  
   - Right-Click -> Kill cell 
