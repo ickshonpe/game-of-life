@@ -1,5 +1,5 @@
 # Conway's Game of Life
-
+## Controls
  Input | Action
 :------------:|:------------:
    Space       | Pause \ Unpause  
