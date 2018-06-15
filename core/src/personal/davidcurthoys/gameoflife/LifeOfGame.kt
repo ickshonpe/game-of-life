@@ -8,14 +8,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
 fun countNeighbours(world: Array<out Array<out Boolean>>, x: Int, y: Int): Int {
     return listOf(
-            Pair(-1, 0),
-            Pair(-1, -1),
-            Pair(-1, 1),
-            Pair(0, -1),
-            Pair(0, 1),
-            Pair(1, 0),
-            Pair(1, -1),
-            Pair(1, 1))
+            Pair(-1, 0), Pair(-1, -1), Pair(-1, 1),
+            Pair(0, -1), Pair(0, 1),
+            Pair(1, 0), Pair(1, -1), Pair(1, 1))
             .mapNotNull { world.getOrNull(x + it.first)?.getOrNull(y + it.second) }
             .count { it }
 }
@@ -36,6 +31,7 @@ class LifeOfGame : ApplicationAdapter() {
     private val columns = 100
     private var world = Array(columns) { Array(rows) { false } }
     private val updateFrequency = 1.0f
+    private val spacing = 7.5f
     private var updateTimer = 0f
     private var paused = false
     override fun create() { shapeRenderer = ShapeRenderer() }
@@ -43,14 +39,13 @@ class LifeOfGame : ApplicationAdapter() {
     override fun render() {
         Gdx.gl.glClearColor(0.3f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        val spacing = 7.5f
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
         shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1f)
-        for (x in 0 .. world.size) {
-            shapeRenderer.line(x * spacing, 0f, x * spacing, world[x].size * spacing)
+        for (x in 0 .. columns) {
+            shapeRenderer.line(x * spacing, 0f, x * spacing, columns * spacing)
         }
-        for (y in 0 .. world[0].size) {
-            shapeRenderer.line(0f, y * spacing, world.size * spacing, y * spacing)
+        for (y in 0 .. rows) {
+            shapeRenderer.line(0f, y * spacing, rows * spacing, y * spacing)
         }
         shapeRenderer.end()
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
