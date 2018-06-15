@@ -37,10 +37,10 @@ class LifeOfGame : ApplicationAdapter() {
     override fun create() { shapeRenderer = ShapeRenderer() }
     override fun dispose() { shapeRenderer.dispose() }
     override fun render() {
-        Gdx.gl.glClearColor(0.3f, 0f, 0f, 1f)
+        Gdx.gl.glClearColor(0f, 0f, 0.3f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
-        shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1f)
+        shapeRenderer.setColor(0.2f, 0.2f, 0.5f, 1f)
         for (x in 0 .. columns) {
             shapeRenderer.line(x * spacing, 0f, x * spacing, columns * spacing)
         }
@@ -56,6 +56,7 @@ class LifeOfGame : ApplicationAdapter() {
             }
         }
         shapeRenderer.end()
+        paused = Gdx.input.isKeyJustPressed(Input.Keys.SPACE) != paused
         if (!paused) {
             updateTimer += Gdx.graphics.deltaTime
             if (updateFrequency < updateTimer) {
@@ -63,7 +64,6 @@ class LifeOfGame : ApplicationAdapter() {
                 world = updateMap(world)
             }
         }
-        paused = Gdx.input.isKeyJustPressed(Input.Keys.SPACE) != paused
         val pointerX = (Gdx.input.x / spacing).toInt()
         val pointerY = ((Gdx.graphics.height - Gdx.input.y - 1) / spacing).toInt()
         world.getOrNull(pointerX)?.getOrNull(pointerY)?.let {
