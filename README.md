@@ -1,4 +1,4 @@
-# Simple version Conway's Game of Life written using Kotlin and Libgdx.
+# Conway's Game of Life
 
 # Controls
   - Space       -> Pause \ Unpause  
